@@ -5,7 +5,7 @@
  *  - Google Fonts: cache-first (fonts are immutable per URL).
  *  - Navigations: network-first, fall back to cache, then offline.html.
  */
-const VERSION = 'datapath-v1.0.1';
+const VERSION = 'datapath-v1.0.2';
 const SHELL_CACHE = `${VERSION}-shell`;
 const RUNTIME_CACHE = `${VERSION}-runtime`;
 const FONT_CACHE = `${VERSION}-fonts`;
