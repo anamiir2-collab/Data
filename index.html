@@ -82,5 +82,33 @@
     </div>
     <div id="root"></div>
     <script type="module" src="./src/main.jsx"></script>
+    <script>
+      // Fail-safe: never leave users on an endless splash if the app bundle fails.
+      window.setTimeout(() => {
+        const splash = document.getElementById('splash');
+        const root = document.getElementById('root');
+        if (splash && root && !root.hasChildNodes()) {
+          const sub = splash.querySelector('.splash-sub');
+          if (sub) sub.textContent = 'The app could not start. Check your connection, then reload.';
+          const bar = splash.querySelector('.splash-bar');
+          if (bar) bar.style.display = 'none';
+          if (!splash.querySelector('[data-retry]')) {
+            const retry = document.createElement('button');
+            retry.type = 'button';
+            retry.dataset.retry = 'true';
+            retry.textContent = 'Reload app';
+            retry.style.cssText = 'margin-top:12px;padding:12px 22px;border:0;border-radius:12px;background:#06b6d4;color:#082033;font-weight:700';
+            retry.addEventListener('click', () => location.reload());
+            splash.appendChild(retry);
+          }
+        }
+      }, 15000);
+      window.addEventListener('error', (event) => {
+        const splash = document.getElementById('splash');
+        if (!splash || !document.getElementById('root')?.hasChildNodes()) return;
+        const sub = splash.querySelector('.splash-sub');
+        if (sub) sub.textContent = 'A loading error occurred. Please reload the app.';
+      });
+    </script>
   </body>
 </html>
