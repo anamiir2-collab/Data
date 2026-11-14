@@ -105,7 +105,7 @@
       }, 15000);
       window.addEventListener('error', (event) => {
         const splash = document.getElementById('splash');
-        if (!splash || !document.getElementById('root')?.hasChildNodes()) return;
+        if (!splash || document.getElementById('root')?.hasChildNodes()) return;
         const sub = splash.querySelector('.splash-sub');
         if (sub) sub.textContent = 'A loading error occurred. Please reload the app.';
       });
