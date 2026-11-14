@@ -5,16 +5,16 @@
  *  - Google Fonts: cache-first (fonts are immutable per URL).
  *  - Navigations: network-first, fall back to cache, then offline.html.
  */
-const VERSION = 'datapath-v1.0.0';
+const VERSION = 'datapath-v1.0.1';
 const SHELL_CACHE = `${VERSION}-shell`;
 const RUNTIME_CACHE = `${VERSION}-runtime`;
 const FONT_CACHE = `${VERSION}-fonts`;
 
 const SHELL_ASSETS = [
-  './',
-  './index.html',
-  './offline.html',
-  './manifest.webmanifest',
+  new URL('./', self.registration.scope).href,
+  new URL('./index.html', self.registration.scope).href,
+  new URL('./manifest.webmanifest', self.registration.scope).href,
+  new URL('./offline.html', self.registration.scope).href,
   './icons/icon-32.png',
   './icons/icon-192.png',
   './icons/icon-512.png',
@@ -65,14 +65,14 @@ self.addEventListener('fetch', (event) => {
         try {
           const fresh = await fetch(req);
           const cache = await caches.open(SHELL_CACHE);
-          cache.put('./index.html', fresh.clone());
+          cache.put(new URL('./index.html', self.registration.scope).href, fresh.clone());
           return fresh;
         } catch (err) {
           const cache = await caches.open(SHELL_CACHE);
           return (
-            (await cache.match('./index.html')) ||
-            (await cache.match('./')) ||
-            (await cache.match('./offline.html')) ||
+            (await cache.match(new URL('./index.html', self.registration.scope).href)) ||
+            (await cache.match(new URL('./', self.registration.scope).href)) ||
+            (await cache.match(new URL('./offline.html', self.registration.scope).href)) ||
             new Response('<h1>Offline</h1>', { headers: { 'Content-Type': 'text/html' } })
           );
         }
