@@ -1,7 +1,7 @@
 {
   "name": "datapath-academy",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "DataPath Academy — From Data Entry to Data Analysis. Installable bilingual PWA learning app.",
   "type": "module",
   "scripts": {
