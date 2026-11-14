@@ -14,6 +14,15 @@ export default function App() {
   const [offline, setOffline] = useState(!navigator.onLine);
   const [updateReady, setUpdateReady] = useState(false);
 
+  // Hide the static HTML splash once React has mounted.
+  useEffect(() => {
+    const splash = document.getElementById('splash');
+    if (!splash) return;
+    splash.classList.add('hide');
+    const timer = window.setTimeout(() => splash.remove(), 500);
+    return () => window.clearTimeout(timer);
+  }, []);
+
   useEffect(() => {
     const on = () => setOffline(false);
     const off = () => setOffline(true);
